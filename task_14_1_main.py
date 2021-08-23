@@ -17,17 +17,26 @@ def main():
         comment VARCHAR
         )""")
 
-
         insert_product = input('Хотите добавить запись в таблицу? YES/NO ')
 
         if insert_product == 'YES':
             cur.executemany("INSERT INTO product VALUES(?, ?, ?, ?, ?)", create_tuple())
         else:
-            print('Таблица готова')
+            change = input('Хотите изменить данные по id? YES/NO ')
+
+            if change == 'YES':
+                new_id = int(input('Введите новое значение id: '))
+                change_id_product = input('Введите продукт для которого вносятся изменения: ')
+                cur.execute("""UPDATE product SET id = :new_id WHERE product = :change_id_product""",
+                            ({'new_id': new_id, 'change_id_product': change_id_product}))
+
+            else:
+                print('Таблица готова')
 
         cur.execute("SELECT * FROM product")
         for result in cur:
             print(result)
+
 
 if __name__ == '__main__':
     main()
