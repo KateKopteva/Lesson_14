@@ -31,7 +31,13 @@ def main():
                             ({'new_id': new_id, 'change_id_product': change_id_product}))
 
             else:
-                print('Таблица готова')
+                delete_id = input('Хотите удалить данные по id? YES/NO ')
+
+                if delete_id == 'YES':
+                    delete = int(input('Введите значение id, которое удаляем: '))
+                    cur.execute("""DELETE FROM product WHERE id = :delete""", {'delete': delete})
+                else:
+                    print('Таблица готова')
 
         cur.execute("SELECT * FROM product")
         for result in cur:
